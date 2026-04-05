@@ -1,0 +1,18 @@
+
+   * Assignment:
+   ---------------
+
+	Problem. Given data of daily close stocks' price and volume in some hidden interval of time. Use all knowledge / idea that you could find to forecast the following:
+	
+			P, V = price, volume
+			f(P[: -(n - 1)], V[: -(n - 1)]) = Return[n]
+
+	* Evaluation:
+	---------------
+	
+	Performance will be tested on a different time interval on the same stocks.
+	
+	* Materials:
+	---------------
+	
+	Research data and a coding template will be shared via LMS system. Please do your work by customizing the template, fill in the names of members of your group and submit them back.
