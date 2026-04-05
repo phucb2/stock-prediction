@@ -25,6 +25,14 @@ uv run python main.py --all        # every file in sample_data/
 
 Use `--algo` and `--param` once you register a custom predictor (below).
 
+### Check results
+
+- **Terminal** — After a run, look for **`base`**, **`abs`**, and **`rel`** (evaluation metrics). A line like `Predictor: ...` shows which algorithm ran when you used `--algo`.
+
+- **Plots** — Figures are saved under **`output/`**. A single sample run writes something like **`output/01_prediction_eval.png`**. With `--all`, you get one PNG per file, e.g. **`output/prediction_eval_s1.png`**.
+
+- **Full report** — `uv run python main.py --all` prints a summary table and also writes **`output/evaluation_report.txt`**. For numbers only (no PNGs), use `uv run python main.py --all --no-plot` or **`make run`**.
+
 ---
 
 ## Customize the assignment (no new class)
