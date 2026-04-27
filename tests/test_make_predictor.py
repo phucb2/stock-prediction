@@ -9,7 +9,7 @@ import numpy as np
 
 from main import DefaultPredictor, make_predictor, parse_algo_params, registered_predictor_names, resolve_predictor_class
 from utils import _predictor_classes_in_module
-from SES import SimpleExponentialSmoothing
+from SES import SimpleExponentialSmoothing, StatsmodelsARIMAReturns, StatsmodelsSimpleExpSmoothing
 
 
 class TestMakePredictor(unittest.TestCase):
@@ -30,12 +30,16 @@ class TestMakePredictor(unittest.TestCase):
         names = registered_predictor_names()
         self.assertIn("default", names)
         self.assertIn("SimpleExponentialSmoothing", names)
+        self.assertIn("StatsmodelsSimpleExpSmoothing", names)
+        self.assertIn("StatsmodelsARIMAReturns", names)
         self.assertIn("DefaultPredictor", names)
 
     def test_discovery_finds_subclasses_in_ses_module(self) -> None:
         mod = importlib.import_module("SES")
         classes = _predictor_classes_in_module(mod)
         self.assertIn(SimpleExponentialSmoothing, classes)
+        self.assertIn(StatsmodelsSimpleExpSmoothing, classes)
+        self.assertIn(StatsmodelsARIMAReturns, classes)
 
     def test_make_predictor_ses_params(self) -> None:
         label, fn = make_predictor("SimpleExponentialSmoothing", {"alpha": 0.5})
@@ -44,6 +48,16 @@ class TestMakePredictor(unittest.TestCase):
         p = np.array([100.0, 101.0, 102.0])
         out = fn(p, np.zeros(3), 5)
         self.assertEqual(len(out), 3)
+
+    def test_make_predictor_arima_params(self) -> None:
+        label, fn = make_predictor(
+            "StatsmodelsARIMAReturns",
+            {"p": 0, "d": 0, "q": 0, "min_obs": 1},
+        )
+        self.assertIn("StatsmodelsARIMAReturns", label)
+        p = np.array([100.0, 101.0, 102.0, 103.0])
+        out = fn(p, np.zeros(4), 5)
+        self.assertEqual(len(out), 4)
 
     def test_parse_algo_params(self) -> None:
         d = parse_algo_params(["alpha=0.2", "flag=true"])

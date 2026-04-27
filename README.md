@@ -60,7 +60,12 @@ The notebook-style blocks are marked in the file; stay within those areas so gra
    uv run python main.py s1 --algo SimpleExponentialSmoothing --param alpha=0.3
    ```
 
-   The built-in moving average is selected with `--algo default`.
+   The built-in moving average is selected with `--algo default`. Other built-in models include the rolling-ARIMA-on-returns and the composite technical-analysis predictor:
+
+   ```bash
+   uv run python main.py s1 --algo TechnicalAnalysisForecast \
+     --param ema_fast=12 --param ema_slow=26 --param w_trend=0.5
+   ```
 
 4. **Course submission** — update **`authors.md`** / **`explains.md`**, then build the hand-in notebook:
 

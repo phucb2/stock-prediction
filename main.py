@@ -28,6 +28,7 @@ def _load_pv_array(stk: str) -> np.ndarray:
 
 
 def _split_pv(A: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Extract (close, volume) from a pv row matrix: column 2 = close, column 6 = volume."""
     return A[:, 2], A[:, 6]
 
 
@@ -113,6 +114,9 @@ def compute_eval_from_pv(
     """Returns (errors e, base, abs metric, rel)."""
     predict_fn = predict if predict is not None else prediction_default
     p, t = predict_fn(P, V, h), target(P, V)
+    # clip p and t to be within -0.07 and 0.07
+    p = np.clip(p, -0.07, 0.07)
+    t = np.clip(t, -0.07, 0.07)
     e, _, den, num = _eval_series(p, t)
     rel = 1 - den / num if num != 0 else float("nan")
     return e, float(num), float(den), float(rel)
